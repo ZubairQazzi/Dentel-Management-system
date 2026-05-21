@@ -1,0 +1,40 @@
+Smile Cure Dentistry - Final Notes
+
+Project type:
+University Database Systems Lab project using a simple web frontend, Express backend, and MySQL database.
+
+Login:
+The login screen is role based only. It does not use passwords, JWT, OTP, hashing, OAuth, refresh tokens, or complex authentication.
+
+Database scripts:
+- backend\database\dms_full_database.sql
+
+Only this one SQL file is needed. It is written in a clear order:
+DROP DATABASE, CREATE DATABASE, USE, CREATE TABLE, ALTER TABLE example,
+INSERT sample data, CREATE INDEX, CREATE VIEW, CREATE TRIGGER,
+simple stored procedures, and sample SELECT queries.
+
+DB lab concepts used:
+- Tables, columns, and data types: dms_full_database.sql
+- Primary keys and foreign keys: dms_full_database.sql
+- NOT NULL, UNIQUE, CHECK, DEFAULT constraints: dms_full_database.sql
+- DDL with CREATE TABLE, ALTER TABLE, DROP TABLE: dms_full_database.sql
+- DML with INSERT, UPDATE, DELETE style operations: dms_full_database.sql and backend routes
+- SELECT, WHERE, ORDER BY, LIMIT, OFFSET: sample queries inside dms_full_database.sql and reports
+- COUNT, SUM, AVG, MIN, MAX: sample queries inside dms_full_database.sql and reports
+- GROUP BY and HAVING: dms_full_database.sql and report routes
+- INNER JOIN, LEFT JOIN, RIGHT JOIN examples: dms_full_database.sql
+- Subqueries: dms_full_database.sql
+- Views: dms_full_database.sql
+- Indexes and unique appointment slot index: dms_full_database.sql
+- Transactions, COMMIT, ROLLBACK: simple stored procedures and sample queries inside dms_full_database.sql
+- Triggers: dms_full_database.sql
+- Simple stored procedures: dms_full_database.sql
+- MySQL built-in functions: CURDATE, DATE_ADD, DAYNAME, UPPER, CONCAT, LPAD, COALESCE, SUM, DATE_FORMAT, TIMESTAMPDIFF
+- Prepared statements: backend uses mysql2 parameter arrays for user input.
+
+Previous database layer removal:
+The old document-database layer, token login code, and password code are not used.
+
+Important:
+Import backend\database\dms_full_database.sql before running the app.

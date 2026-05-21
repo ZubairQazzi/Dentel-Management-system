@@ -1,0 +1,44 @@
+Smile Cure Dentistry - Setup Instructions
+
+1. Install required software
+   - Install Node.js with npm.
+   - Install MySQL Server or XAMPP with MySQL.
+
+2. Backend dependencies
+   - Open Command Prompt in:
+     Dentist-Management\backend
+   - Run:
+     npm install
+
+3. Frontend dependencies
+   - Open Command Prompt in:
+     Dentist-Management\frontend
+   - Run:
+     npm install
+
+4. MySQL database settings
+   - Database name: dentist_management
+   - Default user: root
+   - Default password: empty
+   - Backend environment file:
+     Dentist-Management\backend\.env
+   - If your MySQL password is not empty, edit DB_PASSWORD in backend\.env.
+
+5. Import the database
+   - Use:
+     Dentist-Management\backend\database\dms_full_database.sql
+   - Detailed steps are written in:
+     Dentist-Management\build\database_import_steps.txt
+
+6. Run the project
+   - Double-click:
+     Dentist-Management\build\run_project.bat
+   - It starts backend and frontend, then opens:
+     http://localhost:5173
+   - If XAMPP is installed at D:\xampp, the batch file also tries to start MySQL automatically.
+   - If MySQL is not running, start MySQL manually from XAMPP Control Panel and run the batch file again.
+
+7. Login
+   - Select Owner, Staff, or Customer.
+   - Press Login.
+   - No password is required.

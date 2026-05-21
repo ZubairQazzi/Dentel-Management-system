@@ -1,0 +1,54 @@
+Smile Cure Dentistry - MySQL Import Steps
+
+Option 1: MySQL Command Line
+
+1. Open Command Prompt.
+2. Go to the project folder:
+   cd /d D:\SmileCureDentistry\Dentist-Management
+3. Import the full database:
+   mysql -u root -p < backend\database\dms_full_database.sql
+4. If your root password is empty, press Enter when MySQL asks for the password.
+
+Option 2: MySQL Workbench
+
+1. Open MySQL Workbench.
+2. Connect to your local MySQL server.
+3. Open:
+   backend\database\dms_full_database.sql
+4. Run the full script.
+
+Option 3: phpMyAdmin
+
+1. Start Apache and MySQL in XAMPP.
+2. Open phpMyAdmin.
+3. Go to Import.
+4. Select:
+   backend\database\dms_full_database.sql
+5. Click Import.
+
+After import, confirm these objects exist:
+
+- Tables:
+  users, staff_permissions, clinic, clinic_timings, patients,
+  patient_medical_history, dentists, appointments, treatments,
+  bills, payments, medicines, audit_logs
+
+- Views:
+  patient_full_history_view, appointment_details_view,
+  billing_summary_view, daily_appointments_view
+
+- Stored procedures:
+  sp_book_appointment, sp_create_bill, sp_add_payment,
+  sp_search_patient, sp_daily_appointment_report
+
+- Triggers:
+  patient audit triggers, appointment status trigger,
+  bill trigger, payment trigger
+
+Only one SQL file is needed now:
+
+backend\database\dms_full_database.sql
+
+The file contains the database creation, tables, sample data,
+indexes, views, triggers, simple stored procedures, and sample
+SELECT queries in one readable order.
