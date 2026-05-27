@@ -46,16 +46,21 @@ set MYSQL_EXE=
 set MYSQLADMIN_EXE=
 set MYSQLD_EXE=
 set MYSQL_INI=
+set DB_READY=0
 
 where mysql >nul 2>nul
 if not errorlevel 1 (
   for /f "delims=" %%M in ('where mysql') do if not defined MYSQL_EXE set MYSQL_EXE=%%M
 )
 
+if not defined MYSQL_EXE if exist "C:\xampp\mysql\bin\mysql.exe" set MYSQL_EXE=C:\xampp\mysql\bin\mysql.exe
 if not defined MYSQL_EXE if exist "D:\xampp\mysql\bin\mysql.exe" set MYSQL_EXE=D:\xampp\mysql\bin\mysql.exe
-if exist "D:\xampp\mysql\bin\mysqladmin.exe" set MYSQLADMIN_EXE=D:\xampp\mysql\bin\mysqladmin.exe
-if exist "D:\xampp\mysql\bin\mysqld.exe" set MYSQLD_EXE=D:\xampp\mysql\bin\mysqld.exe
-if exist "D:\xampp\mysql\bin\my.ini" set MYSQL_INI=D:\xampp\mysql\bin\my.ini
+if exist "C:\xampp\mysql\bin\mysqladmin.exe" set MYSQLADMIN_EXE=C:\xampp\mysql\bin\mysqladmin.exe
+if not defined MYSQLADMIN_EXE if exist "D:\xampp\mysql\bin\mysqladmin.exe" set MYSQLADMIN_EXE=D:\xampp\mysql\bin\mysqladmin.exe
+if exist "C:\xampp\mysql\bin\mysqld.exe" set MYSQLD_EXE=C:\xampp\mysql\bin\mysqld.exe
+if not defined MYSQLD_EXE if exist "D:\xampp\mysql\bin\mysqld.exe" set MYSQLD_EXE=D:\xampp\mysql\bin\mysqld.exe
+if exist "C:\xampp\mysql\bin\my.ini" set MYSQL_INI=C:\xampp\mysql\bin\my.ini
+if not defined MYSQL_INI if exist "D:\xampp\mysql\bin\my.ini" set MYSQL_INI=D:\xampp\mysql\bin\my.ini
 
 if defined MYSQL_EXE (
   if not defined MYSQLADMIN_EXE set MYSQLADMIN_EXE=mysqladmin
@@ -80,14 +85,24 @@ if defined MYSQL_EXE (
         echo Database import failed. Check build\database_import_steps.txt.
       ) else (
         echo Database imported successfully.
+        set DB_READY=1
       )
     ) else (
       echo Database %DB_NAME% is ready.
+      set DB_READY=1
     )
   )
 ) else (
   echo MySQL command line was not found.
-  echo Install MySQL or XAMPP, then import backend\database\dms_full_database.sql.
+  echo Install full XAMPP with MySQL, then import backend\database\dms_full_database.sql.
+)
+
+if "%DB_READY%"=="0" (
+  echo.
+  echo Cannot start the project because MySQL is not ready.
+  echo Start MySQL from XAMPP Control Panel or install MySQL, then run this file again.
+  pause
+  exit /b 1
 )
 
 if not exist "%BACKEND%\node_modules" (

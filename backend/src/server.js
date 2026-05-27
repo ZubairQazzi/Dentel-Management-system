@@ -146,7 +146,9 @@ app.get("/api/health", asyncHandler(async (_req, res) => {
   } catch (error) {
     res.status(503).json({
       status: "database unavailable",
-      error: error.message || error.code || "MySQL connection failed"
+      error: isDatabaseConnectionError(error)
+        ? databaseConnectionMessage(error)
+        : error.message || error.code || "MySQL connection failed"
     });
   }
 }));
@@ -846,11 +848,36 @@ app.put("/api/clinic/timings/:id", asyncHandler(async (req, res) => {
   res.json({ message: "Clinic timing updated" });
 }));
 
+function isDatabaseConnectionError(error) {
+  return [
+    "ECONNREFUSED",
+    "ENOTFOUND",
+    "ETIMEDOUT",
+    "PROTOCOL_CONNECTION_LOST",
+    "ER_BAD_DB_ERROR",
+    "ER_ACCESS_DENIED_ERROR",
+    "ER_NO_SUCH_TABLE"
+  ].includes(error.code);
+}
+
+function databaseConnectionMessage(error) {
+  if (error.code === "ER_BAD_DB_ERROR" || error.code === "ER_NO_SUCH_TABLE") {
+    return "Database is not imported. Import backend/database/dms_full_database.sql first.";
+  }
+  if (error.code === "ER_ACCESS_DENIED_ERROR") {
+    return "MySQL username or password is wrong. Check backend/.env.";
+  }
+  return "MySQL is not running. Start MySQL/XAMPP and import backend/database/dms_full_database.sql.";
+}
+
 app.use((error, _req, res, _next) => {
   const duplicate = error.code === "ER_DUP_ENTRY";
-  const status = error.status || (duplicate ? 409 : 500);
+  const databaseConnectionError = isDatabaseConnectionError(error);
+  const status = error.status || (duplicate ? 409 : databaseConnectionError ? 503 : 500);
   const message = duplicate
     ? "Duplicate entry. This record already exists or the appointment slot is booked."
+    : databaseConnectionError
+      ? databaseConnectionMessage(error)
     : error.sqlMessage || error.message || "Server error";
   res.status(status).json({ error: message });
 });

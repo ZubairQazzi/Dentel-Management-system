@@ -264,9 +264,7 @@ The SQL file demonstrates these Database Systems Lab concepts:
 ## Important Notes
 
 - MySQL is the only database used.
-- MongoDB and NoSQL are not used.
-- SQL is kept readable for viva.
-- The complete database is inside one file:
+
 
 ```text
 backend/database/dms_full_database.sql
